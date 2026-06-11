@@ -2,6 +2,9 @@ Set-Alias -Name grep -Value findstr
 Set-Alias -Name cpa -Value Copy-ItemAll
 Set-Alias -Name wgi -Value Install-WingetPackage
 
+$posixCommand="winget install --id=BrechtSanders.WinLibs.POSIX.UCRT -e"
+Set-Alias -Name Install-PosixPkgs -Value $posixCommand
+
 if (Get-Command eza -ErrorAction SilentlyContinue)
 {
   function ezaList
