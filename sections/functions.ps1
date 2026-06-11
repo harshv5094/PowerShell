@@ -1,19 +1,23 @@
+# Which command like linux
 function which ($command)
 {
   Get-Command -Name $command -ErrorAction SilentlyContinue |
     Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
 }
 
+# Whereis function like linux
 function whereis($command)
 {
   Get-Command $command | Select-Object -ExpandProperty Source
 }
 
+# A copy function with recurse and force already applied
 function Copy-ItemAll
 {
   Copy-Item -Recurse -Force @args
 }
 
+# Installing winget packages using fzf
 function Install-WingetPackage
 {
   param(

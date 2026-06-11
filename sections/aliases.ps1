@@ -18,8 +18,3 @@ if (Get-Command lazygit -ErrorAction SilentlyContinue)
 {
   Set-Alias -Name lg -Value lazygit
 }
-
-if (Get-Command bat -ErrorAction SilentlyContinue)
-{
-  Set-Alias -Name cat -Value bat
-}
