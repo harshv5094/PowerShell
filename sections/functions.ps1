@@ -11,6 +11,28 @@ function whereis($command)
   Get-Command $command | Select-Object -ExpandProperty Source
 }
 
+# A function to listen music
+function listen()
+{
+  if ((Get-Command fzf -ErrorAction SilentlyContinue) -and (Get-Command ffplay -ErrorAction SilentlyContinue))
+  {
+    $file = Get-ChildItem -Path "$HOME\Music" -Recurse -Filter "*.mp3" |
+      Select-Object -ExpandProperty FullName |
+      fzf --border-label "** Select Song **"
+
+    if ($file)
+    {
+      ffplay -nodisp -autoexit $file
+    } else
+    {
+      Write-Host "No file selected. Exiting...."
+    }
+  } else
+  {
+    Write-Host "fzf or ffmpeg not found. Install them first."
+  }
+}
+
 # A copy function with recurse and force already applied
 function Copy-ItemAll
 {

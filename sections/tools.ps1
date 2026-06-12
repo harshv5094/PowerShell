@@ -19,3 +19,6 @@ if (Get-Command fzf -ErrorAction SilentlyContinue)
       --bind 'alt-j:down,alt-k:up'
     "
 }
+
+# Add to your PowerShell profile so it persists across sessions
+Add-Content $PROFILE "`n`$env:PATH += `";$scriptsDir`""
