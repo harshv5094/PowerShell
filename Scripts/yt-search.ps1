@@ -56,7 +56,7 @@ if (-not $results)
 $selected = $results | fzf `
   --delimiter '|' `
   --with-nth 2 `
-  --preview 'printf "%b\n" "URL: https://youtube.com/watch?v={1}\nTitle: {2}\nChannel: {3}\nDuration: {4}"' `
+  --preview 'powershell -NoProfile -Command "Write-Host \"URL: https://youtube.com/watch?v={1}\"; Write-Host \"Title: {2}\"; Write-Host \"Channel: {3}\"; Write-Host \"Duration: {4}\""' `
   --preview-window 'bottom' `
   --height '80%' `
   --layout reverse `
@@ -84,7 +84,7 @@ if ($selected)
     Add-Content -Path $historyFile -Value "$videoTitle - $videoUrl"
   }
 
-  mpv $videoUrl
+  mpv --window-minimized=yes $videoUrl
 } else
 {
   Write-Host "Not selected, exiting..."
