@@ -1,8 +1,3 @@
-# Zoxide initialization
-if (Get-Command zoxide -ErrorAction SilentlyContinue)
-{
-  Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
-}
 
 # Starship initialization
 if (Get-Command starship -ErrorAction SilentlyContinue)
@@ -18,4 +13,10 @@ if (Get-Command fzf -ErrorAction SilentlyContinue)
       --border
       --bind 'alt-j:down,alt-k:up'
     "
+}
+
+# Zoxide initialization
+if (Get-Command zoxide -ErrorAction SilentlyContinue)
+{
+  Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 }
