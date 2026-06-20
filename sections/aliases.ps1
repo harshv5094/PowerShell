@@ -9,10 +9,10 @@ Set-Alias -Name Install-PosixPkgs -Value $posixCommand
 if (Get-Command eza -ErrorAction SilentlyContinue)
 {
   function ezaList
-  { eza -l -g --header --icons @args
+  { eza -lg  --icons @args
   }
   function ezaListHidden
-  { eza -l -g -a --header --icons @args
+  { eza -lga --icons @args
   }
   Set-Alias -Name ll -Value ezaList -Option AllScope
   Set-Alias -Name lla -Value ezaListHidden -Option AllScope
