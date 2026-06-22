@@ -42,20 +42,8 @@ function Copy-ItemAll
 function Install-WingetPackage ([string]$Query = "")
 {
   Write-Host "Loading winget package list..." -ForegroundColor Cyan
+  $packages = winget search $Query --accept-source-agreements
 
-  # Fetch, strip headers, and completely filter out the progress bar gibberish
-  $packages = winget search $Query --accept-source-agreements 2>$null | 
-    Where-Object { 
-      $_ -match '\S' -and 
-      $_ -notmatch '^-+|^Name' -and 
-      ($_ -split '\s{2,}').Count -ge 3 # Ensures it's a valid package row
-    }
-    
-  if (!$packages)
-  { return Write-Warning "No packages found." 
-  }
-
-  # Pipe to fzf with 60% height, then install selected
   $packages | fzf --multi --height=60% --prompt="Install > " | ForEach-Object {
     $id = ($_ -split '\s{2,}')[1].Trim()
     Write-Host "Installing $id..." -ForegroundColor Cyan
@@ -66,20 +54,8 @@ function Install-WingetPackage ([string]$Query = "")
 function Remove-WingetPackage
 {
   Write-Host "Loading installed packages..." -ForegroundColor Cyan
-    
-  # Fetch, strip headers, and completely filter out the progress bar gibberish
-  $packages = winget list --accept-source-agreements 2>$null | 
-    Where-Object { 
-      $_ -match '\S' -and 
-      $_ -notmatch '^-+|^Name' -and 
-      ($_ -split '\s{2,}').Count -ge 3 # Ensures it's a valid package row
-    }
-    
-  if (!$packages)
-  { return Write-Warning "No installed packages found." 
-  }
+  $packages = winget list --accept-source-agreements
 
-  # Pipe to fzf with 60% height, then uninstall selected
   $packages | fzf --multi --height=60% --prompt="Uninstall > " | ForEach-Object {
     $id = ($_ -split '\s{2,}')[1].Trim()
     Write-Host "Uninstalling $id..." -ForegroundColor Cyan
