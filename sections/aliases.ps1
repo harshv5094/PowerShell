@@ -22,3 +22,19 @@ if (Get-Command lazygit -ErrorAction SilentlyContinue)
 {
   Set-Alias -Name lg -Value lazygit
 }
+
+if (Test-Path "$env:LOCALAPPDATA\mnvim")
+{
+  function mnvim
+  {
+    $previous = $env:NVIM_APPNAME
+    $env:NVIM_APPNAME = "mnvim"
+    try
+    {
+      nvim @args
+    } finally
+    {
+      $env:NVIM_APPNAME = $previous
+    }
+  }
+}
