@@ -17,8 +17,7 @@ function listen()
   if ((Get-Command fzf -ErrorAction SilentlyContinue) -and (Get-Command ffplay -ErrorAction SilentlyContinue))
   {
     $file = Get-ChildItem -Path "$HOME\Music" -Recurse -Filter "*.mp3" |
-      Select-Object -ExpandProperty FullName |
-      fzf --border-label "** Select Song **"
+      Select-Object -ExpandProperty FullName | fzf --header='** Select a Song **' --height=60% --prompt="Play > "
 
     if ($file)
     {
