@@ -8,11 +8,7 @@ if (Get-Command starship -ErrorAction SilentlyContinue)
 # FZF options
 if (Get-Command fzf -ErrorAction SilentlyContinue)
 {
-  $env:FZF_DEFAULT_OPTS="
-      --reverse
-      --border
-      --bind 'alt-j:down,alt-k:up'
-    "
+  $env:FZF_DEFAULT_OPTS = " --reverse --border --bind 'alt-j:down,alt-k:up'"
 }
 
 # Zoxide initialization
