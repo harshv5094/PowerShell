@@ -4,17 +4,22 @@ if (Get-Module -ListAvailable -Name PSReadLine)
   Set-PSReadLineOption -EditMode Emacs
   Set-PSReadLineOption -BellStyle None
   Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
+  Set-PSReadLineKeyHandler -Key Tab -Function Complete
   Set-PSReadLineOption -PredictionSource History
+  # Set-PSReadLineOption -PredictionViewStyle ListView
 } else
 {
   Write-Host "PSReadLine not found. Installing..." -ForegroundColor Yellow
   Install-Module -Name PSReadLine -Scope CurrentUser -Force
   Write-Host "PSReadLine installed successfully." -ForegroundColor Green
+
   Import-Module PSReadLine
   Set-PSReadLineOption -EditMode Emacs
   Set-PSReadLineOption -BellStyle None
   Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
+  Set-PSReadLineKeyHandler -Key Tab -Function Complete
   Set-PSReadLineOption -PredictionSource History
+  # Set-PSReadLineOption -PredictionViewStyle ListView
 }
 
 if (Get-Module -ListAvailable -Name PSFzf)
@@ -26,5 +31,6 @@ if (Get-Module -ListAvailable -Name PSFzf)
   Write-Host "PSFzf not found. Installing..." -ForegroundColor Yellow
   Install-Module -Name PSFzf -Scope CurrentUser -Force
   Write-Host "PSFzf installed successfully." -ForegroundColor Green
+
   Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 }
