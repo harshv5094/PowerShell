@@ -3,6 +3,12 @@ Set-Alias -Name cpa -Value Copy-ItemAll
 Set-Alias -Name wgi -Value Install-WingetPackage
 Set-Alias -Name wgr -Value Remove-WingetPackage
 
+if (Get-Command nvim -ErrorAction SilentlyContinue)
+{
+  Set-Alias tig 'C:\Program Files\Git\usr\bin\tig.exe'
+  Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
+}
+
 function Install-PosixPkgs()
 {
   winget install --id="BrechtSanders.WinLibs.POSIX.UCRT" -e
