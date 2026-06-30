@@ -1,3 +1,11 @@
+# Scoop Options
+if (Get-Command scoop -ErrorAction SilentlyContinue)
+{
+  Import-Module scoop-completion
+
+  # Setting up scoop search
+  . ([ScriptBlock]::Create((& scoop-search --hook | Out-String)))
+}
 
 # Starship initialization
 if (Get-Command starship -ErrorAction SilentlyContinue)
