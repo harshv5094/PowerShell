@@ -31,7 +31,7 @@ $appList = @(
   "Mozilla.Firefox",
   "7zip.7zip",
   "VideoLAN.VLC",
-  "Microsoft.PowerToys",
+  "Flow-Launcher.Flow-Launcher",
   "yt-dlp.yt-dlp",
   "yt-dlp.FFmpeg"
 )
