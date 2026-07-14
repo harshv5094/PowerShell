@@ -2,6 +2,7 @@ Set-Alias -Name grep -Value findstr
 Set-Alias -Name cpa -Value Copy-ItemAll
 Set-Alias -Name wgi -Value Install-WingetPackage
 Set-Alias -Name wgr -Value Remove-WingetPackage
+Set-Alias -Name wtc -Value wtconfig
 
 function Install-PosixPkgs()
 {
