@@ -13,15 +13,14 @@
       6. DNS cache (ipconfig /flushdns)
       7. Icon and Thumbnail cache
 
-    MUST be run with Administrator privileges. The script will self-terminate
-    if it is not run elevated.
+    MUST be run with Administrator privileges. If launched without
+    elevation, the script will automatically relaunch itself with a
+    UAC prompt (the closest Windows equivalent of "sudo").
 
 .NOTES
     Some files may be skipped because they are currently in use by the
     system — this is expected and safe to ignore, per the source article.
 #>
-
-#Requires -RunAsAdministrator
 
 [CmdletBinding()]
 param()
@@ -29,6 +28,9 @@ param()
 # ---------------------------------------------------------------------------
 # Enforce Administrator privileges (belt-and-suspenders, in addition to
 # the #Requires directive above, in case #Requires is bypassed).
+#
+# If not elevated, self-relaunch with a UAC prompt (the closest Windows
+# equivalent of "sudo") instead of just failing out.
 # ---------------------------------------------------------------------------
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal(
   [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -36,8 +38,71 @@ $currentPrincipal = New-Object Security.Principal.WindowsPrincipal(
 
 if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
 {
-  Write-Error "This script must be run as Administrator. Right-click PowerShell and choose 'Run as administrator', then re-run this script."
-  exit 1
+  Write-Host "This script requires Administrator privileges." -ForegroundColor Yellow
+  Write-Host "Requesting elevation via UAC prompt - click 'Yes' on the dialog that appears..." -ForegroundColor Yellow
+
+  try
+  {
+    $scriptPath = $MyInvocation.MyCommand.Path
+    if (-not $scriptPath)
+    {
+      throw "Could not determine the path of the currently running script."
+    }
+
+    $psExe = (Get-Process -Id $PID).Path
+    if (-not $psExe)
+    {
+      $psExe = "powershell.exe"
+    }
+
+    $argList = @(
+      "-NoProfile",
+      "-ExecutionPolicy", "Bypass",
+      "-File", "`"$scriptPath`""
+    )
+
+    # Forward any bound parameters through to the elevated instance.
+    foreach ($key in $PSBoundParameters.Keys)
+    {
+      $value = $PSBoundParameters[$key]
+      if ($value -is [switch])
+      {
+        if ($value.IsPresent)
+        { $argList += "-$key" 
+        }
+      } else
+      {
+        $argList += "-$key"
+        $argList += "`"$value`""
+      }
+    }
+
+    # Prefer opening the elevated session inside Windows Terminal (a new
+    # elevated wt.exe process gets its own window, since it can't attach
+    # a higher-integrity tab to an existing non-elevated instance). Fall
+    # back to a plain elevated PowerShell console window if wt isn't installed.
+    $wtCommand = Get-Command -Name "wt.exe" -ErrorAction SilentlyContinue
+
+    if ($wtCommand)
+    {
+      Write-Host "  Windows Terminal detected - opening elevated session there..."
+      $wtArgs = @($psExe) + $argList
+      Start-Process -FilePath $wtCommand.Source -ArgumentList $wtArgs -Verb RunAs -ErrorAction Stop
+    } else
+    {
+      Write-Host "  Windows Terminal not found - opening a standalone elevated PowerShell window..."
+      Start-Process -FilePath $psExe -ArgumentList $argList -Verb RunAs -ErrorAction Stop
+    }
+  } catch
+  {
+    Write-Error "Elevation was cancelled or failed: $($_.Exception.Message)"
+    Write-Error "Please right-click PowerShell (or Windows Terminal) and choose 'Run as administrator', then re-run this script manually."
+    exit 1
+  }
+
+  # The elevated instance now runs independently in its own window; this
+  # non-elevated instance has nothing left to do.
+  exit 0
 }
 
 function Write-Section
