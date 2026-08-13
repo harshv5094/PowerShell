@@ -33,7 +33,8 @@ $appList = @(
   "VideoLAN.VLC",
   "Flow-Launcher.Flow-Launcher",
   "yt-dlp.yt-dlp",
-  "yt-dlp.FFmpeg"
+  "yt-dlp.FFmpeg",
+  "Vortrix5.Sifty"
 )
 
 # ---------------------------------------------------------------------------
