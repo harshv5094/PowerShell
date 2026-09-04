@@ -22,5 +22,5 @@ if (Get-Command fzf -ErrorAction SilentlyContinue)
 # Zoxide initialization
 if (Get-Command zoxide -ErrorAction SilentlyContinue)
 {
-  Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
+  Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
