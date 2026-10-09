@@ -17,7 +17,7 @@
 # ---------------------------------------------------------------------------
 $appList = @(
   "Git.Git",
-  "GitHub.Cli",
+  "GitHub.cli",
   "GnuPG.Gpg4win",
   "GnuPG.GnuPG",
   "Neovim.Neovim",
@@ -26,6 +26,7 @@ $appList = @(
   "eza-community.eza",
   "junegunn.fzf",
   "cURL.cURL",
+  "ajeetdsouza.zoxide",
   "aristocratos.btop4win",
   "BurntSushi.ripgrep.MSVC",
   "Mozilla.Firefox",

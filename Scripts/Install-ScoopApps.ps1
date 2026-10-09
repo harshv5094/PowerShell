@@ -89,7 +89,9 @@ $appList = @(
   "unzip",
   "touch",
   "gsudo",
-  "mpv"
+  "mpv",
+  "make",
+  "gcc"
 )
 
 Write-Host "Total apps queued for installation: $($appList.Count)" -ForegroundColor Yellow
