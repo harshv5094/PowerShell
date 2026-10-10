@@ -3,6 +3,8 @@ Set-Alias -Name cpa -Value Copy-ItemAll
 Set-Alias -Name wgi -Value Install-WingetPackage
 Set-Alias -Name wgr -Value Remove-WingetPackage
 Set-Alias -Name wtc -Value wtconfig
+Set-Alias -Name cpa -Value Remove-Item
+Set-Alias -Name rma -Value Remove-ForceRecurse
 
 function Install-PosixPkgs()
 {

@@ -66,3 +66,9 @@ function wtconfig
 {
   nvim "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" 
 }
+
+function Remove-ForceRecurse
+{
+  param([Parameter(Mandatory=$true)][string]$Path)
+  Remove-Item -Path $Path -Recurse -Force
+}
