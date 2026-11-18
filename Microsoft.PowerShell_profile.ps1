@@ -5,4 +5,6 @@ $ProfileRoot = Split-Path -Parent $PROFILE
 . "$ProfileRoot\sections\aliases.ps1"
 . "$ProfileRoot\sections\tools.ps1"
 
+$env:EDITOR = "nvim"
+$env:VISUAL = "nvim"
 $env:PATH += ";$ProfileRoot\Scripts"
